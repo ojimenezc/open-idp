@@ -9,5 +9,8 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
+    <include file="changesets/applications-table-changeset.xml" relativeToChangelogFile="true"/>
+    <include file="changesets/idp-customers-table-changeset.xml" relativeToChangelogFile="true"/>
+    <include file="changesets/customers-applications-table-changeset.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

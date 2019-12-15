@@ -15,6 +15,7 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -33,6 +34,7 @@ public class AuthorizationController {
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
+
 
     @RequestMapping(value = "/authorize", method = RequestMethod.GET)
     public ResponseEntity<?> createAuthenticationToken(String access_token) throws Exception {

@@ -17,9 +17,11 @@ import java.util.ArrayList;
 public class JwtUserDetailsService implements UserDetailsService {
 
     private final ApplicationsRepository applicationsRepository;
+    private final ClientsRepository clientsRepository;
 
-    public JwtUserDetailsService(ApplicationsRepository userRepository) {
+    public JwtUserDetailsService(ApplicationsRepository userRepository, ClientsRepository clientsRepository) {
         this.applicationsRepository = userRepository;
+        this.clientsRepository = clientsRepository;
     }
 
     @Override
@@ -27,9 +29,11 @@ public class JwtUserDetailsService implements UserDetailsService {
 
         ApplicationEntity app = applicationsRepository.getByUsernameOrClientId(username);
         if (null == app) {
-            throw new UsernameNotFoundException(String.format("USER_NOT_FOUND '%s'.", username));
+            ClientsEntity client = clientsRepository.getByUsernameOrClientId(username);
+            if (null == client) {
+                throw new UsernameNotFoundException(String.format("'%s' not found.", username));
+            }
         }
-
         return new User(app.getClientId(), app.getClientSecret(), new ArrayList<>());
     }
 }

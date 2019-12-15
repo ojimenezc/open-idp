@@ -1,5 +1,6 @@
 package com.softcorpcr.idp;
 
+import com.softcorpcr.idp.services.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,7 +27,6 @@ public class AuthManager extends WebSecurityConfigurerAdapter {
                 .antMatchers("*").permitAll();
     }
 
-
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 // configure AuthenticationManager so that it knows from where to load
@@ -36,7 +36,7 @@ public class AuthManager extends WebSecurityConfigurerAdapter {
     }
 
     @Autowired
-    private UserDetailsService jwtUserDetailsService;
+    private JwtUserDetailsService jwtUserDetailsService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {

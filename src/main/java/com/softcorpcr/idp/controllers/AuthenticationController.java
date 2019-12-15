@@ -1,5 +1,6 @@
 package com.softcorpcr.idp.controllers;
 
+import com.softcorpcr.idp.AuthManager;
 import com.softcorpcr.idp.model.Request;
 import com.softcorpcr.idp.model.Response;
 import com.softcorpcr.idp.security.TokenUtil;
@@ -37,6 +38,7 @@ public class AuthenticationController {
     public ResponseEntity<?> createAuthenticationToken(@RequestBody Request authenticationRequest) throws Exception {
         UserDetails userDetails = null;
         Authentication authentication = null;
+
         switch (authenticationRequest.getGrant_type()) {
             case "client_credentials":
                 if (authenticationRequest.getClient_id().isEmpty() || authenticationRequest.getClient_secret().isEmpty()) {
@@ -68,6 +70,7 @@ public class AuthenticationController {
 
     private Authentication authenticate(String username, String password) throws Exception {
         try {
+
             return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         } catch (DisabledException e) {
             throw new Exception("USER_DISABLED", e);

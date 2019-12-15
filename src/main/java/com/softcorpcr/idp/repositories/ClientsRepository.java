@@ -12,10 +12,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Configuration
-@ComponentScan("com.softcorp.cr.facturaelectronica.api.repositories")
+@ComponentScan("com.softcorpcr.idp.repositories")
 @Repository
 public interface ClientsRepository extends CrudRepository<ClientsEntity, Integer> {
 
-    @Query(value = "SELECT * FROM applications app WHERE app.clientId =?1 LIMIT 1", nativeQuery = true)
-    ClientsEntity getByUsernameOrClientId(@Param("value") String value);
+
 }

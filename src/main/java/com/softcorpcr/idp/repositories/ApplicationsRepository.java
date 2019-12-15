@@ -11,8 +11,9 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Configuration
-@ComponentScan("com.softcorp.cr.facturaelectronica.api.repositories")
+@ComponentScan("com.softcorpcr.idp.repositories")
 @Repository
 public interface ApplicationsRepository extends CrudRepository<ApplicationEntity, Integer> {
-
+    @Query(value = "SELECT * FROM applications app WHERE app.client_id=?1", nativeQuery = true)
+    ApplicationEntity getByUsernameOrClientId(@Param("value") String value);
 }

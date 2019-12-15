@@ -2,21 +2,17 @@ package com.softcorpcr.idp.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.softcorpcr.idp.model.InvalidTokenResponse;
-import com.softcorpcr.idp.model.Request;
-import com.softcorpcr.idp.model.Response;
-import com.softcorpcr.idp.security.JwtTokenUtil;
+import com.softcorpcr.idp.security.TokenUtil;
 import com.softcorpcr.idp.services.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
@@ -27,20 +23,16 @@ import java.util.ArrayList;
 public class AuthorizationController {
 
     @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
     JwtUserDetailsService userDetailsService;
 
     @Autowired
-    private JwtTokenUtil jwtTokenUtil;
-
+    private TokenUtil tokenUtil;
 
     @RequestMapping(value = "/authorize", method = RequestMethod.GET)
-    public ResponseEntity<?> createAuthenticationToken(String access_token) throws Exception {
+    public ResponseEntity<?> authorize(String access_token) throws Exception {
         try {
-            if (jwtTokenUtil.validateToken(access_token)) {
-                return ResponseEntity.ok(new User(jwtTokenUtil.getUsernameFromToken(access_token), "", new ArrayList<>()));
+            if (tokenUtil.validateToken(access_token)) {
+                return ResponseEntity.ok(new User(tokenUtil.getUsernameFromToken(access_token), "", new ArrayList<>()));
             } else {
                 InvalidTokenResponse response = new InvalidTokenResponse();
                 response.setAccess_token(access_token);

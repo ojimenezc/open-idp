@@ -20,19 +20,10 @@
             <column name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="clientId" type="varchar(200)">
+            <column name="client_id" type="varchar(200)">
                 <constraints nullable="false"></constraints>
             </column>
-            <column name="clientSecret" type="varchar(2000)">
-                <constraints nullable="false"></constraints>
-            </column>
-            <column name="accountNonExpired" value="1" type="BIT(1)">
-                <constraints nullable="false"></constraints>
-            </column>
-            <column name="accountNonLocked" value="1" type="BIT(1)">
-                <constraints nullable="false"></constraints>
-            </column>
-            <column name="credentialsNonExpired" value="1" type="BIT(1)">
+            <column name="client_secret" type="varchar(2000)">
                 <constraints nullable="false"></constraints>
             </column>
             <column name="enabled" value="1" type="BIT(1)">
@@ -41,7 +32,9 @@
             <column name="creation_date" type="DATETIME()">
                 <constraints nullable="false"></constraints>
             </column>
-
+            <column name="customer_id" type="BIGINT">
+                <constraints nullable="false"></constraints>
+            </column>
         </createTable>
         <addAutoIncrement
                 columnDataType="BIGINT"

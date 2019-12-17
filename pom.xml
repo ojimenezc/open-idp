@@ -11,7 +11,7 @@
     </parent>
     <groupId>com.softcorpcr</groupId>
     <artifactId>idp</artifactId>
-    <version>0.1.3</version>
+    <version>0.2.1</version>
     <name>idp</name>
     <description>Softcorp-CR Identity Provider</description>
 

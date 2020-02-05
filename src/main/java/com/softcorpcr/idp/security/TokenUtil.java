@@ -13,10 +13,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Date;
 import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @Component
 public class TokenUtil implements Serializable {
@@ -69,7 +71,8 @@ public class TokenUtil implements Serializable {
 //   compaction of the JWT to a URL-safe string
     private String doGenerateToken(Map<String, Object> claims, String subject) {
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
+                .setExpiration(Date.from(Instant.now()
+                        .plusSeconds(TimeUnit.MINUTES.toSeconds(5))))
                 .setIssuer(issuer)
                 .signWith(SignatureAlgorithm.HS512, secret).compact();
     }

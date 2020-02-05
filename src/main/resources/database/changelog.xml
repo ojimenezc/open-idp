@@ -11,5 +11,5 @@
 
     <include file="changesets/applications-table-changeset.xml" relativeToChangelogFile="true"/>
     <include file="changesets/idp-customers-table-changeset.xml" relativeToChangelogFile="true"/>
-
+    <include file="changesets/tokens.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

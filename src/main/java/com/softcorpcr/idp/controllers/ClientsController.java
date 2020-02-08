@@ -24,7 +24,6 @@ public class ClientsController {
     @Autowired
     ClientsRepository clientsRepository;
 
-
     @Autowired
     PasswordEncoder passwordEncoder;
 
@@ -38,6 +37,7 @@ public class ClientsController {
         if (null != existing) {
             return new ResponseEntity("The email " + customersEntity.getEmail() + " is already registered in the IDP", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
         customersEntity.setEmail("N/A");
         customersEntity.setPassword(passwordEncoder.encode(customersEntity.getPassword()));
         customersEntity.setUsername(username);

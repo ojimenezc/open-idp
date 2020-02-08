@@ -6,6 +6,7 @@ import com.softcorpcr.idp.model.Response;
 import com.softcorpcr.idp.model.entities.TokensEntity;
 import com.softcorpcr.idp.repositories.TokensRepository;
 import com.softcorpcr.idp.security.TokenUtil;
+import com.softcorpcr.idp.security.encription.Encrypter;
 import com.softcorpcr.idp.services.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -73,6 +75,7 @@ public class AuthenticationController {
                     entity = null;
                     return response;
                 }
+
                 authentication = authenticate(authenticationRequest.getUserName(), authenticationRequest.getPassword());
                 entity.setClientCredentials(authenticationRequest.getUserName());
                 break;

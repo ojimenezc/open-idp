@@ -11,7 +11,7 @@
     </parent>
     <groupId>com.softcorpcr</groupId>
     <artifactId>idp</artifactId>
-    <version>0.2.1</version>
+    <version>0.3.0</version>
     <name>idp</name>
     <description>Softcorp-CR Identity Provider</description>
 
@@ -113,7 +113,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
     </dependencies>
+
 
     <profiles>
         <profile>
@@ -156,9 +161,9 @@
                             <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
                             <changeLogFile>src/main/resources/database/changelog.xml</changeLogFile>
                             <driver>com.mysql.cj.jdbc.Driver</driver>
-                            <url>jdbc:mysql://35.222.118.149/facturaelectronica</url>
-                            <username>api</username>
-                            <password>j86wNMjTeSa9CWrfuEqsb</password>
+                            <url>jdbc:mysql://db-facturaelectronica-do-user-3964062-0.db.ondigitalocean.com:25060/identity-provider</url>
+                            <username>doadmin</username>
+                            <password>flvz0jgavwl4p8ud</password>
                         </configuration>
                         <executions>
                             <execution>

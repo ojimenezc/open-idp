@@ -1,6 +1,5 @@
 package com.softcorpcr.idp.controllers;
 
-import com.softcorpcr.idp.AuthManager;
 import com.softcorpcr.idp.model.Request;
 import com.softcorpcr.idp.model.Response;
 import com.softcorpcr.idp.model.entities.TokensEntity;
@@ -17,7 +16,6 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -26,7 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("api")
+@RequestMapping("oauth")
 @CrossOrigin
 public class AuthenticationController {
 
@@ -42,7 +40,7 @@ public class AuthenticationController {
     @Autowired
     private TokensRepository tokensRepository;
 
-    @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
+    @RequestMapping(value = "/token", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody Request authenticationRequest) throws Exception {
         UserDetails userDetails = null;
         Authentication authentication = null;

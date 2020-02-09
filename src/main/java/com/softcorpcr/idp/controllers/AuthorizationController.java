@@ -18,7 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 
 @RestController
-@RequestMapping("api")
+@RequestMapping("oauth")
 @CrossOrigin
 public class AuthorizationController {
 

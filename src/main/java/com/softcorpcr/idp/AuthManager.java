@@ -1,5 +1,6 @@
 package com.softcorpcr.idp;
 
+import com.softcorpcr.idp.security.JwtRequestFilter;
 import com.softcorpcr.idp.services.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -8,12 +9,17 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 public class AuthManager extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    JwtRequestFilter jwtRequestFilter;
 
     @Bean
     public AuthenticationManager customAuthenticationManager() throws Exception {
@@ -24,7 +30,12 @@ public class AuthManager extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeRequests()
-                .antMatchers("*").permitAll();
+                .antMatchers("/oauth/**").permitAll()
+                .antMatchers("/api/**").authenticated()
+                .and().sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        ;
+        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Autowired

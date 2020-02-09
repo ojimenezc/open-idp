@@ -6,6 +6,7 @@ import com.softcorpcr.idp.repositories.ApplicationsRepository;
 import com.softcorpcr.idp.repositories.ClientsRepository;
 import com.softcorpcr.idp.security.encription.Encrypter;
 import com.softcorpcr.idp.services.JwtUserDetailsService;
+import net.bytebuddy.agent.builder.AgentBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,6 @@ public class ClientsController {
 
     @RequestMapping(value = "/save", method = RequestMethod.POST, headers = "Accept=application/json")
     public ResponseEntity<ClientsEntity> create(@RequestBody ClientsEntity customersEntity) {
-
         Encrypter encrypter = new Encrypter();
         String username = encrypter.encrypt(customersEntity.getEmail());
 

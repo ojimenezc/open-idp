@@ -50,6 +50,7 @@ public class AuthenticationController {
         TokensEntity existing = null;
         ResponseEntity<?> response;
         entity.setGrantType(authenticationRequest.getGrant_type());
+        Encrypter encrypter = new Encrypter();
 
         switch (authenticationRequest.getGrant_type()) {
             case "client_credentials":
@@ -57,27 +58,27 @@ public class AuthenticationController {
                     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Client secret or client ID empty");
                 }
 
-                response = checkIfTokenExists(authenticationRequest.getClient_id());
+                response = checkIfTokenExists(authenticationRequest.getClient_id(), "client_credentials");
                 if (null != response) {
                     entity = null;
                     return response;
                 }
 
-                authentication = authenticate(authenticationRequest.getClient_id(), authenticationRequest.getClient_secret());
-                entity.setClientCredentials(authenticationRequest.getClient_id());
+                authentication = authenticate(authenticationRequest.getClient_id() + "&client_credentials", authenticationRequest.getClient_secret());
+                entity.setClientCredentials(encrypter.encrypt(authenticationRequest.getClient_id()));
                 break;
             case "password":
                 if (authenticationRequest.getUserName().isEmpty() || authenticationRequest.getPassword().isEmpty()) {
                     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username or Password empty");
                 }
-                response = checkIfTokenExists(authenticationRequest.getClient_id());
+                response = checkIfTokenExists(authenticationRequest.getUserName(), "password");
                 if (null != response) {
                     entity = null;
                     return response;
                 }
 
-                authentication = authenticate(authenticationRequest.getUserName(), authenticationRequest.getPassword());
-                entity.setClientCredentials(authenticationRequest.getUserName());
+                authentication = authenticate(authenticationRequest.getUserName() + "&password", authenticationRequest.getPassword());
+                entity.setClientCredentials(encrypter.encrypt(authenticationRequest.getUserName()));
                 break;
             default:
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid grant type " + authenticationRequest.getGrant_type() + ". Valid values are client_credentials or password.");
@@ -96,9 +97,9 @@ public class AuthenticationController {
         return ResponseEntity.ok(new Response(token));
     }
 
-    private ResponseEntity<?> checkIfTokenExists(String clientCredentials) {
-
-        TokensEntity existing = tokensRepository.getCurrentToken(clientCredentials);
+    private ResponseEntity<?> checkIfTokenExists(String clientCredentials, String grantType) {
+        Encrypter encrypter = new Encrypter();
+        TokensEntity existing = tokensRepository.getCurrentToken(encrypter.encrypt(clientCredentials), grantType);
         if (null != existing) {
             return ResponseEntity.ok(new Response(existing.getToken()));
         } else {

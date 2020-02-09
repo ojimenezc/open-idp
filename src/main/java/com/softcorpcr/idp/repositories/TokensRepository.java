@@ -13,6 +13,6 @@ import org.springframework.stereotype.Repository;
 @ComponentScan("com.softcorpcr.idp.repositories")
 @Repository
 public interface TokensRepository extends CrudRepository<TokensEntity, Integer> {
-    @Query(value = "SELECT *  FROM tokens WHERE client_credentials=?1 AND expiry_date>NOW() LIMIT 1", nativeQuery = true)
-    TokensEntity getCurrentToken(@Param("client_credentials") String clientCredentials);
+    @Query(value = "SELECT *  FROM tokens WHERE client_credentials=?1 AND grant_type=?2 AND expiry_date>NOW() LIMIT 1", nativeQuery = true)
+    TokensEntity getCurrentToken(@Param("client_credentials") String clientCredentials, @Param("grant_type") String grantType);
 }

@@ -1,5 +1,6 @@
 package com.softcorpcr.idp.controllers;
 
+import com.softcorpcr.idp.model.PasswordUpdateRequest;
 import com.softcorpcr.idp.model.entities.ApplicationEntity;
 import com.softcorpcr.idp.model.entities.ClientsEntity;
 import com.softcorpcr.idp.repositories.ApplicationsRepository;
@@ -48,5 +49,21 @@ public class ClientsController {
         customersEntity.setPassword(null);
         customersEntity.setBiometric(null);
         return ResponseEntity.ok(customersEntity);
+    }
+
+    @RequestMapping(value = "/password/update", method = RequestMethod.POST, headers = "Accept=application/json")
+    public ResponseEntity<ClientsEntity> passwordUpdate(@RequestBody PasswordUpdateRequest request) {
+
+        Encrypter encrypter = new Encrypter();
+        String username = encrypter.encrypt(request.getUsername());
+
+        ClientsEntity existing = clientsRepository.getByUsernameOrClientId(username);
+        if (null == existing) {
+            return new ResponseEntity("The email " + request.getUsername() + " was not found in the IDP", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        existing.setPassword(passwordEncoder.encode(request.getPassword()));
+        clientsRepository.save(existing);
+
+        return ResponseEntity.ok(existing);
     }
 }

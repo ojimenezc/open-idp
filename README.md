@@ -1,2 +1,2 @@
-# softcorpcr-idp
-SOFTCORP-CR S.A IDP
+# open-idp
+OPEN IDP
